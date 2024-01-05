@@ -6,9 +6,11 @@ public class Main extends PApplet {
     public void settings(){
         size(200,200);
     }
+    Level level;
 
     public void setup(){
         c = new Character(this,100,100);
+        level = new Level(this);
     }
     public void draw(){
         background(255,255,255);
