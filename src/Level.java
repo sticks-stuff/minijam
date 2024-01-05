@@ -42,9 +42,9 @@ public class Level {
 		return slip;
 	}
 
-	public void draw(float charX, float charY, int SCREEN_SIZE_X, int SCREEN_SIZE_Y, int CHAR_WIDTH, int CHAR_HEIGHT) { 
-		float drawX = -charX + SCREEN_SIZE_X / 2 - CHAR_WIDTH / 2;
-		float drawY = -charY + SCREEN_SIZE_Y / 2 - CHAR_HEIGHT / 2;
+	public void draw(float charX, float charY, int CHAR_WIDTH, int CHAR_HEIGHT) { 
+		float drawX = -charX + app.width / 2 - CHAR_WIDTH / 2;
+		float drawY = -charY + app.height / 2 - CHAR_HEIGHT / 2;
 
 		for (PImage image : collideLayers) {
 			app.image(image, drawX, drawY);

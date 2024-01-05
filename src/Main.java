@@ -20,7 +20,7 @@ public class Main extends PApplet {
     }
     public void draw(){
         background(255,255,255);
-        level.draw(c.getX(), c.getY(), SCREEN_SIZE_X, SCREEN_SIZE_Y, CHAR_WIDTH, CHAR_HEIGHT);
+        level.draw(c.getX(), c.getY(), CHAR_WIDTH, CHAR_HEIGHT);
         c.draw();
     }
 
