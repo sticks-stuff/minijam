@@ -4,12 +4,12 @@ public class Main extends PApplet {
 
     Character c;
     public void settings(){
-        size(200,200);
+        size(600,600);
     }
     Level level;
 
     public void setup(){
-        c = new Character(this,100,100);
+        c = new Character(this,100,500);
         level = new Level(this);
     }
     public void draw(){
