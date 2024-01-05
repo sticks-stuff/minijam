@@ -78,7 +78,7 @@ public class Character {
         if (deltaTime > 1){
             return;
         }
-        app.image(charImage, (float) app.width/2,(float) app.height/2, charImage.width * scale, charImage.height * scale);
+        app.image(charImage, (float) app.width/2,(float) app.height/2, charImage.width, charImage.height);
         update();
     }
     

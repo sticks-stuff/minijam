@@ -76,7 +76,16 @@ public class Level {
 				app.pixels[index] = value;
 				index += 1;
 			}
-		}
+		// float drawX = (-charX + (float) app.width / 2 - CHAR_WIDTH / 2);
+		// float drawY = (-charY + (float) app.height / 2 - CHAR_HEIGHT / 2);
+		// app.loadPixels();
+
+		// for (PImage image : collideLayers) {
+		// 	app.image(image, drawX, drawY, image.width, image.height);
+		// }
+		// for (PImage image : noCollideLayers) {
+		// 	app.image(image, drawX, drawY, image.width, image.height);
+		// }
 		app.updatePixels();
 //		System.out.println(app.millis()-time);
 
