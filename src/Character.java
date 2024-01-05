@@ -37,23 +37,41 @@ public class Character {
         return (float) Math.sqrt(Math.pow((y+yAttachmentOffset - attachedY),2) + Math.pow((x+xAttachmentOffset - attachedX),2));
     }
 
+    private boolean isGrounded(){
+        return y >= 500;
+    }
+
     public void draw(){
         app.rect(x,y,10,20);
+        if (isGrounded()){
+            momentumY = 0;
+        }
+
         if (attached){
+            if (!isGrounded()){
+                momentumY += 0.1;
+            }
             app.line(x+xAttachmentOffset,y+yAttachmentOffset,attachedX,attachedY);
             // Mirror for y?
-            float angle = app.atan2( y+yAttachmentOffset - attachedY ,  x+xAttachmentOffset - attachedX)*180/app.PI;
+            float angle = PApplet.atan2( y+yAttachmentOffset - attachedY ,  x+xAttachmentOffset - attachedX)*180/app.PI;
             if (angle >= 0){
                 angle -= 90;
             }
             momentumX += 0.1*angle;
-            y += (ropeLen-ropeLength());
 
+            //momentumY += ropeLen-ropeLength();
+
+            y += (ropeLen-ropeLength());
+            System.out.println(momentumY);
+        }
+        else{
+            y += momentumY;
         }
         x += momentumX;
 
 
         momentumX *= 0.95;
+        momentumY *= 0.95;
 
     }
 }

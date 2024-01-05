@@ -9,7 +9,7 @@ public class Main extends PApplet {
     Level level;
 
     public void setup(){
-        c = new Character(this,100,500);
+        c = new Character(this,100,300);
         level = new Level(this);
     }
     public void draw(){
