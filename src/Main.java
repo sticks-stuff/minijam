@@ -3,8 +3,8 @@ import processing.core.PApplet;
 public class Main extends PApplet {
     private final int START_X       = 400;
     private final int START_Y       = 450;
-    private final int SCREEN_SIZE_X = 1920;
-    private final int SCREEN_SIZE_Y = 1080;
+    private final int SCREEN_SIZE_X = 600;
+    private final int SCREEN_SIZE_Y = 600;
     private final int CHAR_WIDTH    = 50;
     private final int CHAR_HEIGHT   = 100;
     
@@ -23,7 +23,7 @@ public class Main extends PApplet {
         background(255,255,255);
         level.draw(c.getX(), c.getY(), CHAR_WIDTH, CHAR_HEIGHT);
         c.draw();
-        println(frameRate);
+
     }
 
     public void mousePressed(){

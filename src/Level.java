@@ -18,6 +18,10 @@ public class Level {
 		ground   = app.loadImage("../assets/ground.png");
 		slip     = app.loadImage("../assets/bad.png");
 		bad      = app.loadImage("../assets/bad.png");
+//		ground.loadPixels();
+//		slip.loadPixels();
+//		bad.loadPixels();
+
 
 		collideLayers[0] = ground;
 		collideLayers[1] = slip;
@@ -76,8 +80,8 @@ public class Level {
 				}
 			}
 		}
-		Double result = ((double)areaAlpha / ((w * h) * 255)) * 100;
-		return result.intValue();
+		double result = ((double)areaAlpha / ((w * h) * 255)) * 100;
+		return (int) result;
 	}
 
 }

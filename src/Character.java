@@ -20,6 +20,12 @@ public class Character {
     private final float yAttachmentOffset = 0;
     private final float xAttachmentOffset = 5;
 
+
+    private final float MAX_SPEED = 5;
+    private final float ACCELERATION = 0.2f;
+    private final float GRAVITY = 0.5f;
+    private final int TRANSPARENCY_THRESHOLD = 50;
+
     private final PImage charImage;
 
     public Character(PApplet app, Level level, int x, int y, int width, int height){
@@ -62,7 +68,7 @@ public class Character {
     }
 
     private float[] coordinatesToWorld(float i, float j){
-        return new float[]{-i - x - (float) app.width /2 + 25, j - y - (float) app.height /2 + 50};
+        return new float[]{-i - x - (float) app.width/2 + 25, j - y - (float) app.height/2 + 50};
     }
 
     public void draw(){
@@ -72,66 +78,59 @@ public class Character {
             return;
         }
         app.image(charImage, (float) app.width/2,(float) app.height/2);
-        
-
-
 
         update();
     }
-
-    private final float MAX_SPEED = 5;
-    private final float ACCELERATION = 0.2f;
-    private final float GRAVITY = 0.5f; 
-    private final int TRANSPARENCY_THRESHOLD = 50; 
-    private float velocityX = 0;
-    private float velocityY = 0;
     
     public void update() {
         // Apply gravity
-        velocityY += GRAVITY;
+        //velocityY += GRAVITY;
 
         // Predict next position
-        float nextX = x + velocityX;
-        float nextY = y + velocityY;
+        float nextX = x + velocity.x;
+        float nextY = y + velocity.y;
 
         // Check for collision
-        float transparency = level.getIsTransparent((int)nextX, (int)nextY, width, height);
-        if (transparency > TRANSPARENCY_THRESHOLD) {
+
+
+        float transparency = level.getIsTransparent((int) x, (int) y, 1, 1);
+        System.out.println(transparency);
+        if (transparency < TRANSPARENCY_THRESHOLD) {
             // No collision, update position
             x = nextX;
             y = nextY;
         } else {
             // Collision, stop movement in that direction
-            if (level.getIsTransparent((int)nextX, (int)y, width, height) > TRANSPARENCY_THRESHOLD) {
+            if (level.getIsTransparent((int)nextX, (int)y, width-10, height-10) > TRANSPARENCY_THRESHOLD) {
                 // Horizontal movement is safe
                 x = nextX;
             } else {
                 app.println("Collision X");
-                velocityX = 0;
+                velocity.x = 0;
             }
-            if (level.getIsTransparent((int)x, (int)nextY, width, height) > TRANSPARENCY_THRESHOLD) {
+            if (level.getIsTransparent((int)x, (int)nextY, width-10, height-10) > TRANSPARENCY_THRESHOLD) {
                 // Vertical movement is safe
                 y = nextY;
             } else {
                 app.println("Collision Y");
-                velocityY = 0;
+                velocity.y = 0;
             }
         }
 
         if (app.keyPressed) {
             if (app.key == 'w' || app.key == 'W') {
-                velocityY = Math.max(velocityY - ACCELERATION, -MAX_SPEED);
+                velocity.y = Math.max(velocity.y - ACCELERATION, -MAX_SPEED);
             } else if (app.key == 's' || app.key == 'S') {
-                velocityY = Math.min(velocityY + ACCELERATION, MAX_SPEED);
+                velocity.y = Math.min(velocity.y + ACCELERATION, MAX_SPEED);
             } else if (app.key == 'a' || app.key == 'A') {
-                velocityX = Math.max(velocityX - ACCELERATION, -MAX_SPEED);
+                velocity.x = Math.max(velocity.x - ACCELERATION, -MAX_SPEED);
             } else if (app.key == 'd' || app.key == 'D') {
-                velocityX = Math.min(velocityX + ACCELERATION, MAX_SPEED);
+                velocity.x = Math.min(velocity.x + ACCELERATION, MAX_SPEED);
             }
         } else {
             // Slow down when no keys are pressed
-            velocityX *= 0.9;
-            velocityY *= 0.9;
+            velocity.x *= 0.9;
+            velocity.y *= 0.9;
         }
     }
 }
