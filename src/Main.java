@@ -7,22 +7,31 @@ public class Main extends PApplet {
     private final int SCREEN_SIZE_Y = 1080;
     private final int CHAR_WIDTH    = 50;
     private final int CHAR_HEIGHT   = 100;
+
+    private float scale;
     
     Character c;
-    public void settings(){
-        size(SCREEN_SIZE_X,SCREEN_SIZE_Y);
-    }
     Level level;
 
+    public void settings(){
+        size(SCREEN_SIZE_X,SCREEN_SIZE_Y);
+        scale = (float) width / SCREEN_SIZE_X;
+    }
+    
     public void setup(){
         level = new Level(this);
         c = new Character(this, level, START_X, START_Y, CHAR_WIDTH, CHAR_HEIGHT);
+        surface.setResizable(true);
+    }
+
+    public void surfaceResized() {
+        scale = (float) width / SCREEN_SIZE_X;
     }
 
     public void draw(){
         background(255,255,255);
-        level.draw(c.getX(), c.getY(), CHAR_WIDTH, CHAR_HEIGHT);
-        c.draw();
+        level.draw(c.getX(), c.getY(), CHAR_WIDTH, CHAR_HEIGHT, scale);
+        c.draw(scale);
         println(frameRate);
     }
 
