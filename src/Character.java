@@ -1,6 +1,10 @@
 import processing.core.*;
 public class Character {
     private final PApplet app;
+    private final Level level;
+    private final int width;
+    private final int height;
+
     private float x;
     private float y;
     private float lastTime = 0;
@@ -18,11 +22,14 @@ public class Character {
 
     private final PImage charImage;
 
-    public Character(PApplet app,int x, int y){
+    public Character(PApplet app, Level level, int x, int y, int width, int height){
         this.app = app;
+        this.level = level;
         charImage = app.loadImage("../assets/worm.png");
         this.x = x;
         this.y = y;
+        this.width = width;
+        this.height = height;
         this.velocity = new PVector(0,0);
     }
 
@@ -68,6 +75,62 @@ public class Character {
 
 
 
+        update();
+    }
 
+    private final float MAX_SPEED = 5;
+    private final float ACCELERATION = 0.2f;
+    private final float GRAVITY = 0.5f; 
+    private final int TRANSPARENCY_THRESHOLD = 50; 
+    private float velocityX = 0;
+    private float velocityY = 0;
+    
+    public void update() {
+        // Apply gravity
+        velocityY += GRAVITY;
+
+        // Predict next position
+        float nextX = x + velocityX;
+        float nextY = y + velocityY;
+
+        // Check for collision
+        float transparency = level.getIsTransparent((int)nextX, (int)nextY, width, height);
+        if (transparency > TRANSPARENCY_THRESHOLD) {
+            // No collision, update position
+            x = nextX;
+            y = nextY;
+        } else {
+            // Collision, stop movement in that direction
+            if (level.getIsTransparent((int)nextX, (int)y, width, height) > TRANSPARENCY_THRESHOLD) {
+                // Horizontal movement is safe
+                x = nextX;
+            } else {
+                app.println("Collision X");
+                velocityX = 0;
+            }
+            if (level.getIsTransparent((int)x, (int)nextY, width, height) > TRANSPARENCY_THRESHOLD) {
+                // Vertical movement is safe
+                y = nextY;
+            } else {
+                app.println("Collision Y");
+                velocityY = 0;
+            }
+        }
+
+        if (app.keyPressed) {
+            if (app.key == 'w' || app.key == 'W') {
+                velocityY = Math.max(velocityY - ACCELERATION, -MAX_SPEED);
+            } else if (app.key == 's' || app.key == 'S') {
+                velocityY = Math.min(velocityY + ACCELERATION, MAX_SPEED);
+            } else if (app.key == 'a' || app.key == 'A') {
+                velocityX = Math.max(velocityX - ACCELERATION, -MAX_SPEED);
+            } else if (app.key == 'd' || app.key == 'D') {
+                velocityX = Math.min(velocityX + ACCELERATION, MAX_SPEED);
+            }
+        } else {
+            // Slow down when no keys are pressed
+            velocityX *= 0.9;
+            velocityY *= 0.9;
+        }
     }
 }
