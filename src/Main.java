@@ -15,7 +15,7 @@ public class Main extends PApplet {
     public void draw(){
         background(255,255,255);
         c.draw();
-        level.draw(c.getX(), c.getY());
+        //level.draw(c.getX(), c.getY());
     }
 
     public void mousePressed(){
