@@ -54,13 +54,13 @@ public class Level {
 		app.updatePixels();
 		app.loadPixels();
 
-		for (int i = (int) (charX - app.width/2); i < (int) (charX + app.width/2); i++){
-			for (int j = (int) (charY - app.height/2); j < (int) (charY + app.height/2); j++){
-				int offset = ground.width*i;
-				int arrayIndex = offset+ j + i;
-				int value = app.color(255,255,255);
-				if (!(arrayIndex > ground.pixels.length || arrayIndex < 0)){
-					value = Math.max(ground.pixels[arrayIndex],0);
+		for (int i = (int) (charX - app.width/2); i < (int) (charX + app.width/2); i++) {
+			for (int j = (int) (charY - app.height / 2); j < (int) (charY + app.height / 2); j++) {
+				int offset = ground.width * i;
+				int arrayIndex = offset + j + i;
+				int value = app.color(255, 255, 255);
+				if (!(arrayIndex > ground.pixels.length || arrayIndex < 0)) {
+					value = Math.max(ground.pixels[arrayIndex], 0);
 				}
 
 //				if (slip.pixels[offset+j+i] > 0){
@@ -76,6 +76,7 @@ public class Level {
 				app.pixels[index] = value;
 				index += 1;
 			}
+		}
 		// float drawX = (-charX + (float) app.width / 2 - CHAR_WIDTH / 2);
 		// float drawY = (-charY + (float) app.height / 2 - CHAR_HEIGHT / 2);
 		// app.loadPixels();
