@@ -18,6 +18,7 @@ public class Main extends PApplet {
         c = new Character(this, START_X, START_Y);
         level = new Level(this);
     }
+
     public void draw(){
         background(255,255,255);
         level.draw(c.getX(), c.getY(), CHAR_WIDTH, CHAR_HEIGHT);

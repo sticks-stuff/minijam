@@ -54,8 +54,8 @@ public class Character {
         return y >= 500;
     }
 
-    private float coordinatesToWorld(float i){
-        return i - x;
+    private float[] coordinatesToWorld(float i, float j){
+        return new float[]{-i - x - (float) app.width /2 + 25, j - y - (float) app.height /2 + 50};
     }
 
     public void draw(){
@@ -79,6 +79,9 @@ public class Character {
         }
         x += momentumX * deltaTime;
         y += momentumY * deltaTime;
+
+        attachedX -= momentumX * deltaTime;
+        attachedY -= momentumY * deltaTime;
 
 
         momentumX *= 0.99;
