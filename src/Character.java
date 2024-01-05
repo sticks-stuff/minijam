@@ -21,6 +21,14 @@ public class Character {
         this.y = y;
     }
 
+    public float getX() {
+        return x;
+    }
+    
+    public float getY() {
+        return y;
+    }
+
     public boolean attachTo(float x, float y){
         attached = true;
         attachedX = x;

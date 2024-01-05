@@ -37,7 +37,7 @@ public class Level {
 		return slip;
 	}
 
-	public void draw(int x, int y) {
+	public void draw(float x, float y) {
 		app.image(ground, x - OFFSET_X, y - OFFSET_Y);
 		app.image(slip, x - OFFSET_X, y - OFFSET_Y);
 		app.image(bad, x - OFFSET_X, y - OFFSET_Y);
