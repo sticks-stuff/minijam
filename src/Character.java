@@ -3,6 +3,8 @@ public class Character {
     private final PApplet app;
     private float x;
     private float y;
+    private float lastTime = 0;
+
 
     private float momentumX = 0;
     private float momentumY = 0;
@@ -27,7 +29,7 @@ public class Character {
     public float getX() {
         return x;
     }
-    
+
     public float getY() {
         return y;
     }
@@ -53,36 +55,30 @@ public class Character {
     }
 
     public void draw(){
-        app.image(charImage, x, y);
-        if (isGrounded()){
-            momentumY = 0;
+        float deltaTime = (app.millis() - lastTime)/1000;
+        lastTime = app.millis();
+        if (deltaTime > 1){
+            return;
         }
+        app.image(charImage, x, y);
+        app.rect(x,y,10,20);
 
         if (attached){
-            if (!isGrounded()){
-                momentumY += 0.1;
-            }
             app.line(x+xAttachmentOffset,y+yAttachmentOffset,attachedX,attachedY);
             // Mirror for y?
-            float angle = PApplet.atan2( y+yAttachmentOffset - attachedY ,  x+xAttachmentOffset - attachedX)*180/app.PI;
-            if (angle >= 0){
-                angle -= 90;
-            }
-            momentumX += 0.1*angle;
+            float angle = PApplet.atan2(y + yAttachmentOffset - attachedY, x + xAttachmentOffset - attachedX);
 
-            //momentumY += ropeLen-ropeLength();
+            momentumX += 20 * PApplet.sin(angle);
+            momentumY -= 20 * PApplet.cos(angle);
 
-            y += (ropeLen-ropeLength());
-            System.out.println(momentumY);
+
         }
-        else{
-            y += momentumY;
-        }
-        x += momentumX;
+        x += momentumX * deltaTime;
+        y += momentumY * deltaTime;
 
 
-        momentumX *= 0.95;
-        momentumY *= 0.95;
+        momentumX *= 0.99;
+        momentumY *= 0.99;
 
     }
 }
