@@ -17,8 +17,11 @@ public class Character {
     private final float yAttachmentOffset = 0;
     private final float xAttachmentOffset = 5;
 
+    private final PImage charImage;
+
     public Character(PApplet app,int x, int y){
         this.app = app;
+        charImage = app.loadImage("../assets/worm.png");
         this.x = x;
         this.y = y;
     }
@@ -57,6 +60,7 @@ public class Character {
         if (deltaTime > 1){
             return;
         }
+        app.image(charImage, x, y);
         app.rect(x,y,10,20);
 
         if (attached){

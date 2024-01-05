@@ -2,27 +2,32 @@ import processing.core.*;
 
 public class Level {
 	private PApplet app;
+
 	private static PImage ground;
 	private static PImage bad;
 	private static PImage slip;
-	public final PImage[] layers = new PImage[3];
-
-	private final int OFFSET_X = 1920;
-	private final int OFFSET_Y = 600;
-
+	
+	public final PImage[] collideLayers	= new PImage[3];
+	
+	private static PImage details;
+	public final PImage[] noCollideLayers = new PImage[1];
 
 	public Level(PApplet applet) {
 		this.app = applet;
+
 		ground   = app.loadImage("../assets/ground.png");
 		slip     = app.loadImage("../assets/bad.png");
 		bad      = app.loadImage("../assets/bad.png");
 
 		ground.loadPixels();
-		layers[0] = ground;
+		collideLayers[0] = ground;
 		slip.loadPixels();
-		layers[1] = slip;
+		collideLayers[1] = slip;
 		bad.loadPixels();
-		layers[2] = bad;
+		collideLayers[2] = bad;
+
+		details = app.loadImage("../assets/details.png");
+		noCollideLayers[0] = details;
 	}
 
 	public PImage getGround() {
@@ -37,10 +42,16 @@ public class Level {
 		return slip;
 	}
 
-	public void draw(float x, float y) {
-		app.image(ground, x - OFFSET_X, y - OFFSET_Y);
-		app.image(slip, x - OFFSET_X, y - OFFSET_Y);
-		app.image(bad, x - OFFSET_X, y - OFFSET_Y);
+	public void draw(float charX, float charY, int SCREEN_SIZE_X, int SCREEN_SIZE_Y, int CHAR_WIDTH, int CHAR_HEIGHT) { 
+		float drawX = -charX + SCREEN_SIZE_X / 2 - CHAR_WIDTH / 2;
+		float drawY = -charY + SCREEN_SIZE_Y / 2 - CHAR_HEIGHT / 2;
+
+		for (PImage image : collideLayers) {
+			app.image(image, drawX, drawY);
+		}
+		for (PImage image : noCollideLayers) {
+			app.image(image, drawX, drawY);
+		}
 	}
 
 	public int getIsTransparent(int x, int y) {
@@ -48,15 +59,15 @@ public class Level {
 	}
 
 	public int getIsTransparent(int x, int y, int w, int h) {
-		int imageWidth = layers[0].width;
+		int imageWidth = collideLayers[0].width;
 		int areaAlpha = 0;
 
 		for (int i = y; i < y + h; i++) {
 			for (int j = x; j < x + w; j++) {
 				int pixelIndex = i * imageWidth + j;
-				if (pixelIndex < layers[0].pixels.length) {
+				if (pixelIndex < collideLayers[0].pixels.length) {
 					int pixelAlpha = 0;
-					for (PImage image : layers) {
+					for (PImage image : collideLayers) {
 						int alpha = (image.pixels[pixelIndex] >> 24) & 0xFF; // 32 bit int to store color, AAAARRRRGGGGBBBB
 						pixelAlpha += alpha;
 					}
