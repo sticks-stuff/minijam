@@ -17,6 +17,8 @@ public class Level {
 	private final int LEVEL_WIDTH;
 	private final int LEVEL_HEIGHT;
 
+	private PImage output;
+
 	public Level(PApplet applet) {
 		this.app = applet;
 
@@ -38,6 +40,16 @@ public class Level {
 
 		LEVEL_WIDTH = collideLayers[0].width;
 		LEVEL_HEIGHT = collideLayers[0].height;
+
+
+		PGraphics temp = app.createGraphics(LEVEL_WIDTH, LEVEL_HEIGHT);
+		temp.beginDraw();
+		for (PImage image : collideLayers) {
+			temp.image(image, 0, 0);
+		}
+		temp.endDraw();
+	
+		output = temp.get();
 	}
 
 	public PImage getGround() {
@@ -57,9 +69,10 @@ public class Level {
 		int drawX = Math.round(-charX + (float) app.width - CHAR_WIDTH / 2);
 		int drawY = Math.round(-charY + (float) app.height - CHAR_HEIGHT / 2);
 
-		for (PImage image : collideLayers) {
-			PImage subimage = image.get(drawX, drawY, Math.min(app.width, LEVEL_WIDTH - drawX), Math.min(app.height, LEVEL_HEIGHT - drawY));
-			app.image(subimage, 0, 0);
+		PImage subimage = output.get(drawX, drawY, Math.min(app.height, (LEVEL_WIDTH - drawX)), Math.min(app.height, (LEVEL_HEIGHT - drawY)));
+		app.image(subimage, 0, 0);
+		if(app.millis()-time > 17) {
+			System.out.println(app.millis()-time);
 		}
 	}
 
