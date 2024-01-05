@@ -72,6 +72,7 @@ public class Character {
             return;
         }
         app.image(charImage, (float) app.width/2,(float) app.height/2);
+        
 
 
 
