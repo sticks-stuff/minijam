@@ -19,11 +19,8 @@ public class Level {
 		slip     = app.loadImage("../assets/bad.png");
 		bad      = app.loadImage("../assets/bad.png");
 
-		ground.loadPixels();
 		collideLayers[0] = ground;
-		slip.loadPixels();
 		collideLayers[1] = slip;
-		bad.loadPixels();
 		collideLayers[2] = bad;
 
 		details = app.loadImage("../assets/details.png");
@@ -43,8 +40,11 @@ public class Level {
 	}
 
 	public void draw(float charX, float charY, int CHAR_WIDTH, int CHAR_HEIGHT) { 
-		float drawX = -charX + app.width / 2 - CHAR_WIDTH / 2;
-		float drawY = -charY + app.height / 2 - CHAR_HEIGHT / 2;
+		float drawX = -charX + (float) app.width / 2 - (float) CHAR_WIDTH / 2;
+		float drawY = -charY + (float) app.height / 2 - (float) CHAR_HEIGHT / 2;
+		app.loadPixels();
+		for (int i = 0; i < app.pixels.length; i++){
+		}
 
 		for (PImage image : collideLayers) {
 			app.image(image, drawX, drawY);
