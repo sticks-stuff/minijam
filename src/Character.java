@@ -72,6 +72,7 @@ public class Character {
     }
 
     public void draw(float scale){
+
         float deltaTime = (app.millis() - lastTime)/1000;
         lastTime = app.millis();
         if (deltaTime > 1){
@@ -93,7 +94,6 @@ public class Character {
 
 
         float transparency = level.getIsTransparent((int) x, (int) y, 1, 1);
-        System.out.println(transparency);
         if (transparency < TRANSPARENCY_THRESHOLD) {
             // No collision, update position
             x = nextX;
@@ -104,14 +104,12 @@ public class Character {
                 // Horizontal movement is safe
                 x = nextX;
             } else {
-                app.println("Collision X");
                 velocity.x = 0;
             }
             if (level.getIsTransparent((int)x, (int)nextY, width-10, height-10) > TRANSPARENCY_THRESHOLD) {
                 // Vertical movement is safe
                 y = nextY;
             } else {
-                app.println("Collision Y");
                 velocity.y = 0;
             }
         }

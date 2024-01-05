@@ -1,5 +1,7 @@
 import processing.core.*;
 
+import java.util.Arrays;
+
 public class Level {
 	private PApplet app;
 
@@ -18,9 +20,9 @@ public class Level {
 		ground   = app.loadImage("../assets/ground.png");
 		slip     = app.loadImage("../assets/bad.png");
 		bad      = app.loadImage("../assets/bad.png");
-//		ground.loadPixels();
-//		slip.loadPixels();
-//		bad.loadPixels();
+		ground.loadPixels();
+		slip.loadPixels();
+		bad.loadPixels();
 
 
 		collideLayers[0] = ground;
@@ -29,6 +31,7 @@ public class Level {
 
 		details = app.loadImage("../assets/details.png");
 		noCollideLayers[0] = details;
+		details.loadPixels();
 	}
 
 	public PImage getGround() {
@@ -43,17 +46,40 @@ public class Level {
 		return slip;
 	}
 
-	public void draw(float charX, float charY, float CHAR_WIDTH, float CHAR_HEIGHT, float scale) { 
-		float drawX = (-charX + (float) app.width / 2 - CHAR_WIDTH / 2) * scale;
-		float drawY = (-charY + (float) app.height / 2 - CHAR_HEIGHT / 2) * scale;
+	public void draw(float charX, float charY) {
+		float time = app.millis();
+		app.loadPixels();
+		int index = 0;
+		Arrays.fill(app.pixels, 0);
+		app.updatePixels();
 		app.loadPixels();
 
-		for (PImage image : collideLayers) {
-			app.image(image, drawX, drawY, image.width * scale, image.height * scale);
+		for (int i = (int) (charX - app.width/2); i < (int) (charX + app.width/2); i++){
+			for (int j = (int) (charY - app.height/2); j < (int) (charY + app.height/2); j++){
+				int offset = ground.width*i;
+				int arrayIndex = offset+ j + i;
+				int value = app.color(255,255,255);
+				if (!(arrayIndex > ground.pixels.length || arrayIndex < 0)){
+					value = Math.max(ground.pixels[arrayIndex],0);
+				}
+
+//				if (slip.pixels[offset+j+i] > 0){
+//					value = slip.pixels[offset+j+i];
+//				}
+//				if (bad.pixels[offset+j+i] > 0){
+//					value = bad.pixels[offset+j+i];
+//				}
+//				if (details.pixels[offset+j+i] > 0){
+//					value = details.pixels[offset+j+i];
+//				}
+
+				app.pixels[index] = value;
+				index += 1;
+			}
 		}
-		for (PImage image : noCollideLayers) {
-			app.image(image, drawX, drawY, image.width * scale, image.height * scale);
-		}
+		app.updatePixels();
+//		System.out.println(app.millis()-time);
+
 	}
 
 	public int getIsTransparent(int x, int y) {
