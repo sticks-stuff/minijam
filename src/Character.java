@@ -54,19 +54,23 @@ public class Character {
         return y >= 500;
     }
 
+    private float coordinatesToWorld(float i){
+        return i - x;
+    }
+
     public void draw(){
         float deltaTime = (app.millis() - lastTime)/1000;
         lastTime = app.millis();
         if (deltaTime > 1){
             return;
         }
-        app.image(charImage, x, y);
-        app.rect(x,y,10,20);
+        app.image(charImage, (float) app.width/2,(float) app.height/2);
+        app.rect((float) app.width/2,(float) app.height/2,10,20);
 
         if (attached){
-            app.line(x+xAttachmentOffset,y+yAttachmentOffset,attachedX,attachedY);
+            app.line((float) app.width/2+xAttachmentOffset,(float) app.height/2+yAttachmentOffset,attachedX,attachedY);
             // Mirror for y?
-            float angle = PApplet.atan2(y + yAttachmentOffset - attachedY, x + xAttachmentOffset - attachedX);
+            float angle = PApplet.atan2((float) app.height/2 + yAttachmentOffset - attachedY, (float) app.width/2 + xAttachmentOffset - attachedX);
 
             momentumX += 20 * PApplet.sin(angle);
             momentumY -= 20 * PApplet.cos(angle);
