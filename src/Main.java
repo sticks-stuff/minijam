@@ -1,10 +1,12 @@
 import processing.core.PApplet;
 
 public class Main extends PApplet {
-    private final int START_X = 500;
-    private final int START_Y = 550;
+    private final int START_X       = 500;
+    private final int START_Y       = 550;
     private final int SCREEN_SIZE_X = 600;
     private final int SCREEN_SIZE_Y = 600;
+    private final int CHAR_WIDTH    = 50;
+    private final int CHAR_HEIGHT   = 100;
     
     Character c;
     public void settings(){
@@ -18,7 +20,7 @@ public class Main extends PApplet {
     }
     public void draw(){
         background(255,255,255);
-        level.draw(c.getX(), c.getY(), SCREEN_SIZE_X, SCREEN_SIZE_Y);
+        level.draw(c.getX(), c.getY(), SCREEN_SIZE_X, SCREEN_SIZE_Y, CHAR_WIDTH, CHAR_HEIGHT);
         c.draw();
     }
 
