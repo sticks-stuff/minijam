@@ -14,6 +14,9 @@ public class Level {
 	private static PImage details;
 	public final PImage[] noCollideLayers = new PImage[1];
 
+	private final int LEVEL_WIDTH;
+	private final int LEVEL_HEIGHT;
+
 	public Level(PApplet applet) {
 		this.app = applet;
 
@@ -32,6 +35,9 @@ public class Level {
 		details = app.loadImage("../assets/details.png");
 		noCollideLayers[0] = details;
 		details.loadPixels();
+
+		LEVEL_WIDTH = collideLayers[0].width;
+		LEVEL_HEIGHT = collideLayers[0].height;
 	}
 
 	public PImage getGround() {
@@ -46,50 +52,15 @@ public class Level {
 		return slip;
 	}
 
-	public void draw(float charX, float charY) {
+	public void draw(float charX, float charY, float CHAR_WIDTH, float CHAR_HEIGHT) { 
 		float time = app.millis();
-		app.loadPixels();
-		int index = 0;
-		Arrays.fill(app.pixels, 0);
-		app.updatePixels();
-		app.loadPixels();
+		int drawX = Math.round(-charX + (float) app.width - CHAR_WIDTH / 2);
+		int drawY = Math.round(-charY + (float) app.height - CHAR_HEIGHT / 2);
 
-		for (int i = (int) (charX - app.width/2); i < (int) (charX + app.width/2); i++) {
-			for (int j = (int) (charY - app.height / 2); j < (int) (charY + app.height / 2); j++) {
-				int offset = ground.width * i;
-				int arrayIndex = offset + j + i;
-				int value = app.color(255, 255, 255);
-				if (!(arrayIndex > ground.pixels.length || arrayIndex < 0)) {
-					value = Math.max(ground.pixels[arrayIndex], 0);
-				}
-
-//				if (slip.pixels[offset+j+i] > 0){
-//					value = slip.pixels[offset+j+i];
-//				}
-//				if (bad.pixels[offset+j+i] > 0){
-//					value = bad.pixels[offset+j+i];
-//				}
-//				if (details.pixels[offset+j+i] > 0){
-//					value = details.pixels[offset+j+i];
-//				}
-
-				app.pixels[index] = value;
-				index += 1;
-			}
+		for (PImage image : collideLayers) {
+			PImage subimage = image.get(drawX, drawY, Math.min(app.width, LEVEL_WIDTH - drawX), Math.min(app.height, LEVEL_HEIGHT - drawY));
+			app.image(subimage, 0, 0);
 		}
-		// float drawX = (-charX + (float) app.width / 2 - CHAR_WIDTH / 2);
-		// float drawY = (-charY + (float) app.height / 2 - CHAR_HEIGHT / 2);
-		// app.loadPixels();
-
-		// for (PImage image : collideLayers) {
-		// 	app.image(image, drawX, drawY, image.width, image.height);
-		// }
-		// for (PImage image : noCollideLayers) {
-		// 	app.image(image, drawX, drawY, image.width, image.height);
-		// }
-		app.updatePixels();
-//		System.out.println(app.millis()-time);
-
 	}
 
 	public int getIsTransparent(int x, int y) {
@@ -97,12 +68,11 @@ public class Level {
 	}
 
 	public int getIsTransparent(int x, int y, int w, int h) {
-		int imageWidth = collideLayers[0].width;
 		int areaAlpha = 0;
 
 		for (int i = y; i < y + h; i++) {
 			for (int j = x; j < x + w; j++) {
-				int pixelIndex = i * imageWidth + j;
+				int pixelIndex = i * LEVEL_WIDTH + j;
 				if (pixelIndex < collideLayers[0].pixels.length) {
 					int pixelAlpha = 0;
 					for (PImage image : collideLayers) {

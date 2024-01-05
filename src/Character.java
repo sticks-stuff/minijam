@@ -71,7 +71,7 @@ public class Character {
         return new float[]{-i - x - (float) app.width/2 + 25, j - y - (float) app.height/2 + 50};
     }
 
-    public void draw(float scale){
+    public void draw(){
 
         float deltaTime = (app.millis() - lastTime)/1000;
         lastTime = app.millis();
@@ -110,7 +110,6 @@ public class Character {
                 // Vertical movement is safe
                 y = nextY;
             } else {
-                velocity.y = 0;
             }
         }
 

@@ -23,8 +23,8 @@ public class Main extends PApplet {
 
     public void draw(){
         background(255,255,255);
-        level.draw(c.getX(), c.getY());
-        c.draw(scale);
+        level.draw(c.getX(), c.getY(), CHAR_WIDTH, CHAR_HEIGHT);
+        c.draw();
     }
 
     public void mousePressed(){
