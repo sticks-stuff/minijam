@@ -71,13 +71,13 @@ public class Character {
         return new float[]{-i - x - (float) app.width/2 + 25, j - y - (float) app.height/2 + 50};
     }
 
-    public void draw(float scale){
+    public void draw(){
         float deltaTime = (app.millis() - lastTime)/1000;
         lastTime = app.millis();
         if (deltaTime > 1){
             return;
         }
-        app.image(charImage, (float) app.width/2,(float) app.height/2, charImage.width * scale, charImage.height * scale);
+        app.image(charImage, (float) app.width/2,(float) app.height/2, charImage.width, charImage.height);
         update();
     }
     

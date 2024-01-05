@@ -43,16 +43,16 @@ public class Level {
 		return slip;
 	}
 
-	public void draw(float charX, float charY, float CHAR_WIDTH, float CHAR_HEIGHT, float scale) { 
-		float drawX = (-charX + (float) app.width / 2 - CHAR_WIDTH / 2) * scale;
-		float drawY = (-charY + (float) app.height / 2 - CHAR_HEIGHT / 2) * scale;
+	public void draw(float charX, float charY, float CHAR_WIDTH, float CHAR_HEIGHT) { 
+		float drawX = (-charX + (float) app.width / 2 - CHAR_WIDTH / 2);
+		float drawY = (-charY + (float) app.height / 2 - CHAR_HEIGHT / 2);
 		app.loadPixels();
 
 		for (PImage image : collideLayers) {
-			app.image(image, drawX, drawY, image.width * scale, image.height * scale);
+			app.image(image, drawX, drawY, image.width, image.height);
 		}
 		for (PImage image : noCollideLayers) {
-			app.image(image, drawX, drawY, image.width * scale, image.height * scale);
+			app.image(image, drawX, drawY, image.width, image.height);
 		}
 	}
 
