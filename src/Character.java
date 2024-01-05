@@ -6,8 +6,7 @@ public class Character {
     private float lastTime = 0;
 
 
-    private float momentumX = 0;
-    private float momentumY = 0;
+    private PVector velocity;
 
     private boolean attached = false;
     private float attachedX;
@@ -24,6 +23,7 @@ public class Character {
         charImage = app.loadImage("../assets/worm.png");
         this.x = x;
         this.y = y;
+        this.velocity = new PVector(0,0);
     }
 
     public float getX() {
@@ -65,27 +65,9 @@ public class Character {
             return;
         }
         app.image(charImage, (float) app.width/2,(float) app.height/2);
-        app.rect((float) app.width/2,(float) app.height/2,10,20);
-
-        if (attached){
-            app.line((float) app.width/2+xAttachmentOffset,(float) app.height/2+yAttachmentOffset,attachedX,attachedY);
-            // Mirror for y?
-            float angle = PApplet.atan2((float) app.height/2 + yAttachmentOffset - attachedY, (float) app.width/2 + xAttachmentOffset - attachedX);
-
-            momentumX += 20 * PApplet.sin(angle);
-            momentumY -= 20 * PApplet.cos(angle);
 
 
-        }
-        x += momentumX * deltaTime;
-        y += momentumY * deltaTime;
 
-        attachedX -= momentumX * deltaTime;
-        attachedY -= momentumY * deltaTime;
-
-
-        momentumX *= 0.99;
-        momentumY *= 0.99;
 
     }
 }
